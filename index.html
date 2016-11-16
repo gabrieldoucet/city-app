@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFuVkcDaTZQn52mUdornhQjWiwjIzuii8"></script>
+    <script src="./geolocation-marker.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+      <script type="text/javascript">
+        var delay = 0;
+        var infowindow = new google.maps.InfoWindow();
+        var latlng = new google.maps.LatLng(55.873979, -4.291680);
+        var mapOptions = {
+          zoom: 15,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var geocoder = new google.maps.Geocoder(); 
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var bounds = new google.maps.LatLngBounds();
+        
+          // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var GeoMarker = new GeolocationMarker(map);
+
+      //    infoWindow.setPosition(pos);
+      //    infoWindow.setContent('Location found.');
+          map.setCenter(pos);
+          
+          locations.forEach( function(point) {
+            createMarker(point, pos);
+          });
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+        // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+        
+        function createMarker(point, pos) {
+          point.d = distance(point, pos);
+          var contentString = point.lat + '\n' + point.lng + '\n' + point.d;
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(point.lat, point.lng),
+            map: map,
+          });
+          markers.push(marker);
+
+          google.maps.event.addListener(marker, 'click', function() {
+            
+            infowindow.setContent(contentString); 
+            infowindow.open(map,marker);
+          });
+
+          bounds.extend(marker.position);
+        }
+        
+        function toRadians(x) {
+          return (Math.PI / 180 * x);
+        }
+        
+        function distance(p1, p2) {
+          var R = 6371e3; // metres
+          var f1 = toRadians(p1.lat);
+          var f2 = toRadians(p2.lat);
+          var df = toRadians((p2.lat-p1.lat));
+          var dl = toRadians((p2.lng-p1.lng));
+
+          var a = Math.sin(df/2) * Math.sin(df/2) +
+              Math.cos(f1) * Math.cos(f2) *
+              Math.sin(dl/2) * Math.sin(dl/2);
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+          var d = R * c;
+
+          return d;
+        }
+        var markers = [];
+        
+        var locations = [
+        {lat: 55.876946, lng:-4.294388, d: 0, title: ''},
+        {lat: 55.873079, lng: -4.279125, d: 0, title: ''},
+        {lat: 55.874782, lng: -4.280495, d: 0, title: ''},
+        {lat: 55.879808, lng: -4.293154, d: 0, title: ''}
+        ];
+      </script>
+  </body>
+</html>
