@@ -119,9 +119,15 @@ width: 500px;
           closestMarker = marker;
         }
       });
+
       console.log(closestMarker);
       var paragraph = document.getElementById('debug');
-      paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distance(crd, closestMarker.point);
+      paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + Math.round(distance(crd, closestMarker.point), 2);
+
+      var box = document.getElementById("box");
+      box.style.backgroundColor = colorBox(minDistance);
+      userCircle.fillColor = colorBox(minDistance);
+
 			console.log('watchPosition' , crd);
 		}
 
@@ -155,26 +161,27 @@ width: 500px;
     }; */
 
     function colorBox(d){
-        if (d <= 10) {
-            color = "#FF0000";
-            } else if (d >= 10.1 && d <= 20.0){
-                color = "#E2001C";
-            } else if (d >= 20.1 && d <= 30.0){
-                color = "#C60038";
-            } else if (d >= 30.1 && d <= 40.0){
-                color = "#AA0055";
-            } else if (d >= 40.1 && d <= 50.0){
-                color = "#8D0071";
-            } else if (d >= 50.1 && d <= 60.0){
-                color = "#71008D";
-            } else if (d >= 60.1 && d <= 70.0){
-                color = "#5500AA";
-            } else if (d >= 70.1 && d <= 80.0){
-                color = "#3800C6";
-            } else if (d >= 80.1 && d <= 90.0){
-                color = "#1C00E2";
+      var maxDistance = 200;
+        if (d <= maxDistance / 10) {
+          color = "#FF0000";
+        } else if (d >= maxDistance / 10 + 0.1 && d <= 2 * maxDistance / 10){
+          color = "#E2001C";
+        } else if (d >= 2 * maxDistance / 10 + 0.1 && d <= 3 * maxDistance / 10){
+          color = "#C60038";
+        } else if (d >= 3 * maxDistance / 10 + 0.1 && d <= 4 * maxDistance / 10){
+          color = "#AA0055";
+        } else if (d >= 4 * maxDistance / 10 + 0.1 && d <= 5 * maxDistance / 10){
+          color = "#8D0071";
+        } else if (d >= 5 * maxDistance / 10 + 0.1 && d <= 6 * maxDistance / 10){
+          color = "#71008D";
+        } else if (d >= 6 * maxDistance / 10 + 0.1 && d <= 7 * maxDistance / 10){
+          color = "#5500AA";
+        } else if (d >= 7 * maxDistance / 10 + 0.1 && d <= 8 * maxDistance / 10){
+          color = "#3800C6";
+        } else if (d >= 8 * maxDistance / 10 + 0.1 && d <= 9 * maxDistance / 10){
+          color = "#1C00E2";
         } else {
-            color = "#0000FF";
+          color = "#0000FF";
         }
         return color;
     };
