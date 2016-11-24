@@ -1,0 +1,17 @@
+#map {
+  height: 80%;
+}
+
+#box {
+  height: 20%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.info {
+  width: 500px;
+}
