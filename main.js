@@ -1,5 +1,6 @@
 var userCircle = {};
 var revealDistance = 150;
+var maxDistance = 100;
 var delay = 0;
 var markers = [];
 var infowindow = new google.maps.InfoWindow();
@@ -11,7 +12,9 @@ var mapOptions = {
 }
 var geocoder = new google.maps.Geocoder(); 
 var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
 var bounds = new google.maps.LatLngBounds();
+var colours = ["#FF0000", "#E2001C", "#C60038", "#AA0055", "#8D0071", "#71008D", "#5500AA", "#3800C6", "#1C00E2", "#0000FF"]
 
 var locations = [
   {lat: 55.876946, lng:-4.294388, d: 0, title: 'Windows in the West', about: "Location of the famous painting by Glasgow artist Avril Paton.", image: "location0.jpg"},
@@ -23,6 +26,29 @@ var locations = [
   {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"}
 ];
 
+for (var i = 0; i < colours.length; i++){
+  var colour = colours[i];
+  var tr = document.createElement('tr');
+  var labelTd = document.createElement('td');
+  var colourTd = document.createElement('td');
+  var colourDiv = document.createElement('div');
+
+  colourDiv.innerHTML = colour;
+  colourDiv.style.color = colour;
+  colourDiv.style.backgroundColor = colour;
+
+  var minValue = i * maxDistance / colours.length;
+  var maxValue = (i + 1) * maxDistance / colours.length;
+  if (i === colours.length - 1) {
+    labelTd.innerHTML = 'above ' + minValue + ' meters';
+  } else {
+    labelTd.innerHTML = '[' + minValue + '-' + maxValue + '[';
+  }
+  colourTd.append(colourDiv);
+  tr.append(colourTd, labelTd);
+  document.getElementById('colour-table').append(tr);
+}
+
 // Try HTML5 geolocation.
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition( function(position) {
@@ -32,7 +58,7 @@ if (navigator.geolocation) {
       lng: position.coords.longitude
     };
 
-  //  pos.lat = fakePosition.lat;
+  // pos.lat = fakePosition.lat;
   // pos.lng = fakePosition.lng;
     console.log('current position' , pos);
     map.setCenter(fakePosition);
@@ -68,6 +94,9 @@ function success(pos) {
     lat: pos.coords.latitude,
     lng: pos.coords.longitude
   };
+
+  map.setCenter(crd);
+
   var minDistance = 100000;
   var closestMarker;
   markers.forEach(function(marker) { 
@@ -134,8 +163,17 @@ function colorBox(d){
 }; */
 
 function colorBox(d){
-  var maxDistance = 1000;
-  var color;
+  var color
+  var colorIndex = Math.floor(d * colours.length / maxDistance);
+  if ( colorIndex > colours.length -1) {
+    return colours[colours.length - 1];
+  } else {
+    return colours[colorIndex];
+  }
+}
+
+/*
+function oldColorBox(d) {
   if (d <= maxDistance / 10) {
     color = "#FF0000";
   } else if (d >= maxDistance / 10 + 0.1 && d <= 2 * maxDistance / 10){
@@ -158,7 +196,7 @@ function colorBox(d){
     color = "#0000FF";
   }
   return color;
-};
+}; */
 
 function createMarker(point, pos) {
   point.d = distance(point, pos);
