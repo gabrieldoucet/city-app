@@ -96,13 +96,12 @@ function success(pos) {
       */
   }
 
-  userCircle.center = crd;
-
+  userCircle.setCenter(new google.maps.LatLng(crd.lat, crd.lng));
   var box = document.getElementById('box');
   box.style.backgroundColor = colorBox(minDistance);
   userCircle.fillColor = colorBox(minDistance);
   userCircle.strokeColor = colorBox(minDistance);
-  console.log('watchPosition' , crd);
+//  console.log('watchPosition' , crd);
 }
 
 // Watching position changes
@@ -198,7 +197,6 @@ function toRadians(x) {
 }
         
 function distance(p1, p2) {
-  console.log(p1, p2);
   var R = 6371e3; // metres
   var f1 = toRadians(p1.lat);
   var f2 = toRadians(p2.lat);
