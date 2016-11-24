@@ -95,6 +95,9 @@ function success(pos) {
         image.setAttribute('src', closestMarker.point.image);
       */
   }
+
+  userCircle.center = crd;
+
   var box = document.getElementById('box');
   box.style.backgroundColor = colorBox(minDistance);
   userCircle.fillColor = colorBox(minDistance);
