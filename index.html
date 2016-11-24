@@ -31,7 +31,10 @@ width: 500px;
   </head>
   <body>
     <div id="map"></div>
-    <div id="box" style="background-color: #00FF00">Get the colour of the closest pin to appear here</div>
+    <div id="box" style="background-color: #00FF00">
+      <p id="debug">Get the colour of the closest pin to appear here
+      </p>
+    </div>
 
       <script type="text/javascript">
         var delay = 0;
@@ -105,7 +108,9 @@ width: 500px;
 		
 		function success(pos) {
 			var crd = pos.coords;
-			console.log(' watchPosition' , crd);
+      var paragraph = document.getElementById('debug');
+      paragraph.innerHTML = crd.latitude + " *** " + crd.longitude;
+			console.log('watchPosition' , crd);
 		}
 		navigator.geolocation.watchPosition(success);
         
