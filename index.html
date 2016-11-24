@@ -107,37 +107,77 @@ width: 500px;
         }
 		
 		function success(pos) {
-			var crd = pos.coords;
+			var crd = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      };
+      var minDistance = 100000;
+      var closestMarker;
+      markers.forEach(function(marker) { 
+        if (marker.point.d < minDistance) {
+          minDistance = marker.point.d
+          closestMarker = marker;
+        }
+      });
+      console.log(closestMarker);
       var paragraph = document.getElementById('debug');
-      paragraph.innerHTML = crd.latitude + " *** " + crd.longitude;
+      paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distance(crd, closestMarker.point);
 			console.log('watchPosition' , crd);
 		}
+
+    // Watching position changes
 		navigator.geolocation.watchPosition(success);
         
-        function colorBox(d){
-            if (d <= 50) {
-                color = "#FF0000";
-                } else if (d >= 51 && d <= 100){
-                    color = "#E2001C";
-                } else if (d >= 101 && d <= 150){
-                    color = "#C60038";
-                } else if (d >= 151 && d <= 200){
-                    color = "#AA0055";
-                } else if (d >= 201 && d <= 250){
-                    color = "#8D0071";
-                } else if (d >= 251 && d <= 300){
-                    color = "#71008D";
-                } else if (d >= 301 && d <= 350){
-                    color = "#5500AA";
-                } else if (d >= 351 && d <= 400){
-                    color = "#3800C6";
-                } else if (d >= 401 && d <= 450){
-                    color = "#1C00E2";
-            } else {
-                color = "#0000FF";
-            }
-            return color;
-        };
+    /*
+    function colorBox(d){
+        if (d <= 50) {
+            color = "#FF0000";
+            } else if (d >= 51 && d <= 100){
+                color = "#E2001C";
+            } else if (d >= 101 && d <= 150){
+                color = "#C60038";
+            } else if (d >= 151 && d <= 200){
+                color = "#AA0055";
+            } else if (d >= 201 && d <= 250){
+                color = "#8D0071";
+            } else if (d >= 251 && d <= 300){
+                color = "#71008D";
+            } else if (d >= 301 && d <= 350){
+                color = "#5500AA";
+            } else if (d >= 351 && d <= 400){
+                color = "#3800C6";
+            } else if (d >= 401 && d <= 450){
+                color = "#1C00E2";
+        } else {
+            color = "#0000FF";
+        }
+        return color;
+    }; */
+
+    function colorBox(d){
+        if (d <= 10) {
+            color = "#FF0000";
+            } else if (d >= 10.1 && d <= 20.0){
+                color = "#E2001C";
+            } else if (d >= 20.1 && d <= 30.0){
+                color = "#C60038";
+            } else if (d >= 30.1 && d <= 40.0){
+                color = "#AA0055";
+            } else if (d >= 40.1 && d <= 50.0){
+                color = "#8D0071";
+            } else if (d >= 50.1 && d <= 60.0){
+                color = "#71008D";
+            } else if (d >= 60.1 && d <= 70.0){
+                color = "#5500AA";
+            } else if (d >= 70.1 && d <= 80.0){
+                color = "#3800C6";
+            } else if (d >= 80.1 && d <= 90.0){
+                color = "#1C00E2";
+        } else {
+            color = "#0000FF";
+        }
+        return color;
+    };
 
         function createMarker(point, pos) {
           point.d = distance(point, pos);
@@ -176,6 +216,7 @@ width: 500px;
         }
         
         function distance(p1, p2) {
+          console.log(p1, p2);
           var R = 6371e3; // metres
           var f1 = toRadians(p1.lat);
           var f2 = toRadians(p2.lat);
@@ -198,7 +239,8 @@ width: 500px;
           {lat: 55.875925, lng: -4.291911, d: 0, title: 'De Courcys Arcade', about: 'A hidden cluster of around fifteen curious boutiques, galleries, gift shops, cafés and specialist services.', image: "location3.jpg"},
           {lat: 55.874790, lng: -4.280413, d: 0, title: 'Inn Deep', about: 'An easy to miss bar beside the river Kelvin, near to Kelvinbridge subway station.', image: "location4.jpg"},
           {lat: 55.869565, lng: -4.286043, d: 0, title: 'Kelvingrove Bandstand', about: 'An outdoor entertainment stage set against the green backdrop of Kelvingrove Park, boasting a 2500 capacity and modern facilities .', image: "location5.jpg"},
-          {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"}    
+          {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"},
+          {lat: 55.8734117, lng:-4.2915252, d: 0, title: 'Windows in the West', about: "Location of the famous painting by Glasgow artist Avril Paton.", image: "location0.jpg"}    
         ];
 		
       </script>
