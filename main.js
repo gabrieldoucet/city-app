@@ -149,9 +149,18 @@ function success(pos) {
 
   userCircle.setCenter(new google.maps.LatLng(crd.lat, crd.lng));
   var box = document.getElementById('box');
-  box.style.backgroundColor = colorBox(minDistance);
-  userCircle.fillColor = colorBox(minDistance);
-  userCircle.strokeColor = colorBox(minDistance);
+
+  var oldColor = box.style.backgroundColor;
+  var newColor = colorBox(minDistance)
+
+  if (oldColor !== newColor) {
+    window.navigator.vibrate(1000);
+  }
+
+  box.style.backgroundColor = newColor;
+  userCircle.fillColor = newColor;
+  userCircle.strokeColor = newColor;
+  oldColor = newColor;
 //  console.log('watchPosition' , crd);
 }
 
