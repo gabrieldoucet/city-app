@@ -26,9 +26,7 @@ var locations = [
   {lat: 55.875925, lng: -4.291911, d: 0, title: 'De Courcys Arcade', about: 'A hidden cluster of around fifteen curious boutiques, galleries, gift shops, cafés and specialist services.', image: "location3.jpg"},
   {lat: 55.874790, lng: -4.280413, d: 0, title: 'Inn Deep', about: 'An easy to miss bar beside the river Kelvin, near to Kelvinbridge subway station.', image: "location4.jpg"},
   {lat: 55.869565, lng: -4.286043, d: 0, title: 'Kelvingrove Bandstand', about: 'An outdoor entertainment stage set against the green backdrop of Kelvingrove Park, boasting a 2500 capacity and modern facilities .', image: "location5.jpg"},
-  {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"},
-  {lat: 55.8734117, lng:-4.2915252, d: 0, title: 'Windows in the West', about: "About debug1", image: "location0.jpg"},
-  {lat: 55.873660, lng:-4.291925  , d: 0, title: 'Windows in the West', about: "About debug2", image: "location0.jpg"}   
+  {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"}
 ];
 /*
 for (var i = 0; i < colours.length; i++){
@@ -287,7 +285,11 @@ function distance(p1, p2) {
   return d;
 }
 
-/* ,
+/* 
+  {lat: 55.8734117, lng:-4.2915252, d: 0, title: 'Windows in the West', about: "About debug1", image: "location0.jpg"},
+  {lat: 55.873660, lng:-4.291925  , d: 0, title: 'Windows in the West', about: "About debug2", image: "location0.jpg"}   
+
+,
   {lat: 55.8734117, lng:-4.2915252, d: 0, title: 'Windows in the West', about: "About debug1", image: "location0.jpg"},
   {lat: 55.873660, lng:-4.291925  , d: 0, title: 'Windows in the West', about: "About debug2", image: "location0.jpg"}   
   */
