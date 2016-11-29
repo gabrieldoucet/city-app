@@ -49,6 +49,8 @@ for (var i = 0; i < colours.length; i++){
   document.getElementById('colour-table').append(tr);
 }
 
+window.navigator.vibrate(100);
+
 // Try HTML5 geolocation.
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition( function(position) {
