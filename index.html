@@ -16,22 +16,29 @@
   </head>
 
   <body>
-    <div id="map"></div>
-    <div class="container-fluid col-lg-9">
-      <label>The redder it gets, the closer you are!</label>
-      <div id="box" style="background-color: #00FF00; height: 320px">
-        <p id="debug">Get the colour of the closest pin to appear here</p>
-  <!--      <p id="title"></p>
-        <p id="about"></p>
-        <img src="" id="picture"></img> -->
-      </div>
+
+  <div id="container">
+
+  <ul class="nav nav-tabs nav-justified">
+    <li role="presentation" class="active"><a href="">Map</a></li>
+    <li role="presentation" class="disabled"><a href="#">Places</a></li>
+    <li role="presentation" class="disabled"><a href="#">Profile</a></li>
+  </ul>
+
+  <div id="map">
     </div>
-    <div class="container-fluid col-lg-3">
-      <table class="table">
-        <tbody id="colour-table">
-        </tbody>
-      </table>
+  </div>
+
+  <div class="footer">
+    <div id="box">
+      <p id="debug">The nearer to red this box gets, the closer you are!</p>
     </div>
-    <script src="main.js"></script>
-  </body>
+
+    <div id="key">
+    </div>
+  </div>
+
+<script src="main.js"></script>
+
+</body>
 </html>

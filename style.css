@@ -1,17 +1,53 @@
-#map {
-  height: 80%;
-}
-
-#box {
-  height: 20%;
-}
-
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  position: relative;
+  min-height: 100%;
+  margin-bottom: 250px;
 }
 
-.info {
-  width: 500px;
+#container {
+  height: 100%;
+}
+
+#nav {
+  height: 50px;
+}
+
+#map {
+  height: 75%;
+}
+
+#box, #key{
+  width: 50%;
+  height: 250px;
+  float: left;
+  color: #fff;
+  position: relative;
+}
+
+#key span{
+  color: #fff;
+}
+
+.color {
+  height: 25px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 250px;
+  background-color: #f5f5f5;
+}
+
+.nav-tabs.nav-justified > li > a {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }

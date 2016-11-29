@@ -1,6 +1,6 @@
 var userCircle = {};
-var revealDistance = 150;
-var maxDistance = 100;
+var revealDistance = 50;
+var maxDistance = 200;
 var delay = 0;
 var markers = [];
 var infowindow = new google.maps.InfoWindow();
@@ -8,7 +8,8 @@ var latlng = new google.maps.LatLng(55.873979, -4.291680);
 var mapOptions = {
   zoom: 16,
   center: latlng,
-  mapTypeId: google.maps.MapTypeId.ROADMAP
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+  disableDefaultUI: true
 }
 var geocoder = new google.maps.Geocoder(); 
 var map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -25,7 +26,7 @@ var locations = [
   {lat: 55.869565, lng: -4.286043, d: 0, title: 'Kelvingrove Bandstand', about: 'An outdoor entertainment stage set against the green backdrop of Kelvingrove Park, boasting a 2500 capacity and modern facilities .', image: "location5.jpg"},
   {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"}
 ];
-
+/*
 for (var i = 0; i < colours.length; i++){
   var colour = colours[i];
   var tr = document.createElement('tr');
@@ -48,8 +49,27 @@ for (var i = 0; i < colours.length; i++){
   tr.append(colourTd, labelTd);
   document.getElementById('colour-table').append(tr);
 }
+*/
+for (var i = 0; i < colours.length; i++){
+  var colour = colours[i];
+  var labelDist = document.createElement('span');
+  var colourDiv = document.createElement('div');
+  colourDiv.className = "color";
 
-window.navigator.vibrate(100);
+  colourDiv.innerHTML = colour;
+  colourDiv.style.color = colour;
+  colourDiv.style.backgroundColor = colour;
+
+  var minValue = i * maxDistance / colours.length;
+  var maxValue = (i + 1) * maxDistance / colours.length;
+    if (i === colours.length - 1) {
+      labelDist.innerHTML = 'above ' + minValue + ' meters';
+    } else {
+      labelDist.innerHTML = minValue + '-' + maxValue + ' meters';
+    }
+  colourDiv.append(labelDist);
+  document.getElementById('key').append(colourDiv);
+}
 
 // Try HTML5 geolocation.
 if (navigator.geolocation) {
@@ -67,10 +87,10 @@ if (navigator.geolocation) {
 
     userCircle = new google.maps.Circle({
       strokeColor: '#00FF00',
-      strokeOpacity: 0.8,
+      strokeOpacity: 1,
       strokeWeight: 2,
       fillColor: '#00FF00',
-      fillOpacity: 0.35,
+      fillOpacity: 1,
       map: map,
       center: pos,
       radius: 10
@@ -109,9 +129,9 @@ function success(pos) {
   });
 
   var distanceToClosest = Math.round(distance(crd, closestMarker.point), 2);
-  var paragraph = document.getElementById('debug');
+  /*var paragraph = document.getElementById('debug');
   paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distanceToClosest + '\n';
-    
+    */
   if (distanceToClosest < revealDistance) {
     closestMarker.setVisible(true);
         /*
@@ -228,7 +248,6 @@ function createMarker(point, pos) {
     infowindow.setContent(contentString); 
     infowindow.open(map,marker);
   });
-
   bounds.extend(marker.position);
 }
         
