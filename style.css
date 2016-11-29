@@ -5,7 +5,7 @@ html, body {
   overflow: hidden;
   position: relative;
   min-height: 100%;
-  margin-bottom: 250px;
+  margin-bottom: 200px;
 }
 
 #container {
@@ -13,7 +13,7 @@ html, body {
 }
 
 #nav {
-  height: 50px;
+  height: 40px;
 }
 
 #map {
@@ -22,7 +22,7 @@ html, body {
 
 #box, #key{
   width: 50%;
-  height: 250px;
+  height: 200px;
   float: left;
   color: #fff;
   position: relative;
@@ -33,7 +33,11 @@ html, body {
 }
 
 .color {
-  height: 25px;
+  height: 20px;
+}
+
+.navbar {
+  margin-bottom: 0px;
 }
 
 .footer {
@@ -42,7 +46,7 @@ html, body {
   width: 100%;
   margin: 0px;
   padding: 0px;
-  height: 250px;
+  height: 20s0px;
   background-color: #f5f5f5;
 }
 
