@@ -2,6 +2,7 @@ var userCircle = {};
 var notify = false;
 var revealDistance = 50;
 var maxDistance = 200;
+var maxVibration = 1000;
 var delay = 0;
 var markers = [];
 var infowindow = new google.maps.InfoWindow();
@@ -142,8 +143,8 @@ function success(pos) {
   
   if (!notify && distanceToClosest < maxDistance) {
     notify = true;
-    console.log(notify);
-    window.navigator.vibrate(1000);
+    var waitingTime = vibration(distanceToClosest);
+    window.navigator.vibrate([100, waitingTime, 100, waitingTime]);
   }
 
   if (distanceToClosest < revealDistance) {
@@ -203,10 +204,19 @@ function colorBox(d){
 function colorBox(d){
   var color
   var colorIndex = Math.floor(d * colours.length / maxDistance);
-  if ( colorIndex > colours.length -1) {
+  if ( colorIndex > colours.length - 1) {
     return colours[colours.length - 1];
   } else {
     return colours[colorIndex];
+  }
+}
+
+function vibration(d){
+  var colorIndex = Math.floor(d * colours.length / maxDistance);
+  if ( colorIndex > colours.length - 1) {
+    return maxVibration / (colorIndex + 1)
+  } else {
+    return maxVibration;
   }
 }
 
