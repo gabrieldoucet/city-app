@@ -144,7 +144,7 @@ function success(pos) {
     */
     
   if (distanceToClosest < maxDistance) {
-    window.navigator.vibrate(1000);
+    window.navigator.vibrate(100);
   }
 
   if (distanceToClosest < revealDistance) {
