@@ -1,7 +1,7 @@
 var userCircle = {};
 var notify = false;
 var revealDistance = 50;
-var maxDistance = 100;
+var maxDistance = 200;
 var maxVibration = 1000;
 var delay = 0;
 var markers = [];
@@ -208,15 +208,6 @@ function colorBox(d){
     return colours[colours.length - 1];
   } else {
     return colours[colorIndex];
-  }
-}
-
-function vibration(d){
-  var colorIndex = Math.floor(d * colours.length / maxDistance);
-  if ( colorIndex < colours.length - 1) {
-    return maxVibration / colours.length * (colours.lengthcolorIndex + 1);
-  } else {
-    return maxVibration;
   }
 }
 
