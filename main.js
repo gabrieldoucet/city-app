@@ -1,6 +1,6 @@
 var userCircle = {};
 var soundNotify = false;
-var revealDistance = 160;
+var revealDistance = 50;
 var maxDistance = 200;
 var maxVibration = 1000;
 var delay = 0;
