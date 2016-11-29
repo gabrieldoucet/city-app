@@ -111,6 +111,12 @@ if (navigator.geolocation) {
 // Browser doesn't support Geolocation
   handleLocationError(false, infoWindow, map.getCenter());
 }
+
+// Watching position changes
+navigator.geolocation.watchPosition(success);
+
+// End of the main loop
+
     
 function success(pos) {
   var crd = {
@@ -134,8 +140,9 @@ function success(pos) {
   paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distanceToClosest + '\n';
     */
   
-  if (distanceToClosest < maxDistance && !notify) {
+  if (!notify && distanceToClosest < maxDistance) {
     notify = true;
+    console.log(notify);
     window.navigator.vibrate(1000);
   }
 
@@ -166,9 +173,6 @@ function success(pos) {
   oldColor = newColor;
 //  console.log('watchPosition' , crd);
 }
-
-// Watching position changes
-navigator.geolocation.watchPosition(success);
         
 /*
 function colorBox(d){
