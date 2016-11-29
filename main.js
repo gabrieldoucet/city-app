@@ -1,5 +1,5 @@
 var userCircle = {};
-var notify = false;
+var soundNotify = false;
 var revealDistance = 50;
 var maxDistance = 200;
 var maxVibration = 1000;
@@ -143,6 +143,12 @@ function success(pos) {
     
   if (distanceToClosest < maxDistance) {
     window.navigator.vibrate(100);
+  }
+
+  if (!soundNotify && distanceToClosest < revealDistance) {
+    var audio = new Audio('notify.mp3');
+    audio.play();
+    soundNotify = true;
   }
 
   if (distanceToClosest < revealDistance) {
