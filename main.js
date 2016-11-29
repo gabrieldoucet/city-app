@@ -1,4 +1,5 @@
 var userCircle = {};
+var notify = false;
 var revealDistance = 50;
 var maxDistance = 200;
 var delay = 0;
@@ -132,6 +133,12 @@ function success(pos) {
   /*var paragraph = document.getElementById('debug');
   paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distanceToClosest + '\n';
     */
+  
+  if (distanceToClosest < maxDistance && !notify) {
+    notify = true;
+    window.navigator.vibrate(1000);
+  }
+
   if (distanceToClosest < revealDistance) {
     closestMarker.setVisible(true);
         /*
@@ -152,10 +159,6 @@ function success(pos) {
 
   var oldColor = box.style.backgroundColor;
   var newColor = colorBox(minDistance)
-
-  if (oldColor !== newColor) {
-    window.navigator.vibrate(1000);
-  }
 
   box.style.backgroundColor = newColor;
   userCircle.fillColor = newColor;
