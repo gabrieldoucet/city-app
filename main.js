@@ -140,11 +140,11 @@ function success(pos) {
   /*var paragraph = document.getElementById('debug');
   paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distanceToClosest + '\n';
     */
-  
-  if (!notify && distanceToClosest < maxDistance) {
-    notify = true;
+    
+  if (distanceToClosest < maxDistance) {
     var waitingTime = vibration(distanceToClosest);
-    window.navigator.vibrate([100, waitingTime, 100, waitingTime]);
+    console.log(waitingTime);
+    window.navigator.vibrate([100, waitingTime]);
   }
 
   if (distanceToClosest < revealDistance) {
@@ -213,8 +213,8 @@ function colorBox(d){
 
 function vibration(d){
   var colorIndex = Math.floor(d * colours.length / maxDistance);
-  if ( colorIndex > colours.length - 1) {
-    return maxVibration / (colorIndex + 1)
+  if ( colorIndex < colours.length - 1) {
+    return maxVibration / colours.length * (colorIndex + 1);
   } else {
     return maxVibration;
   }
