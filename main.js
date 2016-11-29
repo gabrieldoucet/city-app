@@ -1,6 +1,6 @@
 var userCircle = {};
 var soundNotify = false;
-var revealDistance = 50;
+var revealDistance = 160;
 var maxDistance = 200;
 var maxVibration = 1000;
 var delay = 0;
@@ -20,13 +20,62 @@ var bounds = new google.maps.LatLngBounds();
 var colours = ["#FF0000", "#E2001C", "#C60038", "#AA0055", "#8D0071", "#71008D", "#5500AA", "#3800C6", "#1C00E2", "#0000FF"]
 
 var locations = [
-  {lat: 55.876946, lng:-4.294388, d: 0, title: 'Windows in the West', about: "Location of the famous painting by Glasgow artist Avril Paton.", image: "location0.jpg"},
-  {lat: 55.878674, lng: -4.290939, d: 0, title: 'Hidden tunnel', about: 'The old Botanic Gardens station on the now closed Glasgow Central Railway.', image: "location1.jpg"},
-  {lat: 55.875014, lng: -4.293316, d: 0, title: 'The Wee Pub', about: 'The smallest bar in Glasgow.', image: "location2.jpg"},
-  {lat: 55.875925, lng: -4.291911, d: 0, title: 'De Courcys Arcade', about: 'A hidden cluster of around fifteen curious boutiques, galleries, gift shops, cafés and specialist services.', image: "location3.jpg"},
-  {lat: 55.874790, lng: -4.280413, d: 0, title: 'Inn Deep', about: 'An easy to miss bar beside the river Kelvin, near to Kelvinbridge subway station.', image: "location4.jpg"},
-  {lat: 55.869565, lng: -4.286043, d: 0, title: 'Kelvingrove Bandstand', about: 'An outdoor entertainment stage set against the green backdrop of Kelvingrove Park, boasting a 2500 capacity and modern facilities .', image: "location5.jpg"},
-  {lat: 55.871796, lng: -4.287267, d: 0, title: 'Zoology Museum', about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.', image: "location6.jpg"}
+  {
+    lat: 55.876946,
+    lng:-4.294388,
+    d: 0, title: 'Windows in the West',
+    about: "Location of the famous painting by Glasgow artist Avril Paton.",
+    image: "location0.jpg",
+    type: "culture"
+  },
+  {
+    lat: 55.878674,
+    lng: -4.290939,
+    d: 0, title: 'Hidden tunnel',
+    about: 'The old Botanic Gardens station on the now closed Glasgow Central Railway.',
+    image: "location1.jpg",
+    type: "sight"
+  },
+  {
+    lat: 55.875014,
+    lng: -4.293316,
+    d: 0, title: 'The Wee Pub',
+    about: 'The smallest bar in Glasgow.',
+    image: "location2.jpg",
+    type: "entertainment"
+  },
+  {
+    lat: 55.875925,
+    lng: -4.291911,
+    d: 0, title: 'De Courcys Arcade',
+    about: 'A hidden cluster of around fifteen curious boutiques, galleries, gift shops, cafés and specialist services.',
+    image: "location3.jpg",
+    type: "shopping"
+  },
+  {
+    lat: 55.874790,
+    lng: -4.280413,
+    d: 0, title: 'Inn Deep',
+    about: 'An easy to miss bar beside the river Kelvin, near to Kelvinbridge subway station.',
+    image: "location4.jpg",
+    type: "entertainment"
+  },
+  {
+    lat: 55.869565,
+    lng: -4.286043,
+    d: 0, title: 'Kelvingrove Bandstand',
+    about: 'An outdoor entertainment stage set against the green backdrop of Kelvingrove Park, boasting a 2500 capacity and modern facilities .',
+    image: "location5.jpg",
+    type: "culture"
+  },
+  {
+    lat: 55.871796,
+    lng: -4.287267,
+    d: 0, title: 'Zoology Museum',
+    about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.',
+    image: "location6.jpg",
+    type: "culture"
+  }
 ];
 /*
 for (var i = 0; i < colours.length; i++){
@@ -245,22 +294,17 @@ function createMarker(point, pos) {
   point.d = distance(point, pos);
   var contentString = 
     '<div id="' + point.d + '" class="info">'
-    + point.title
-    + '</br>' 
+    + '<h5>' + point.title + ' (' + Math.floor(point.d) + ' metres) </h5>'
     + point.about
     + '</br>' 
     + '<img src="' + point.image + '">'
-    + point.lat 
-    + point.lng 
-    + '</br>' 
-    + point.d
-    + colorBox(point.d)
     + '</div>'
     ;
   var marker = new google.maps.Marker({
     position: new google.maps.LatLng(point.lat, point.lng),
     map: map,
-    point: point
+    point: point,
+    icon: getIcon(point.type)
   });
   markers.push(marker);
   marker.setVisible(false);
@@ -291,6 +335,18 @@ function distance(p1, p2) {
   return d;
 }
 
+function getIcon(type) {
+  var icon = "./icons/";
+  if (type ===  "sight") {
+   return icon + "point-of-interest.svg";
+  } else if (type === "culture") {
+   return icon + "museum.svg";
+  } else if (type === "entertainment") {
+   return icon + "bar.svg";
+  } else if (type === "shopping") {
+   return icon + "shopping-mall.svg"; 
+  }
+}
 /* 
   {lat: 55.8734117, lng:-4.2915252, d: 0, title: 'Windows in the West', about: "About debug1", image: "location0.jpg"},
   {lat: 55.873660, lng:-4.291925  , d: 0, title: 'Windows in the West', about: "About debug2", image: "location0.jpg"}   
