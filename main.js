@@ -144,9 +144,7 @@ function success(pos) {
     */
     
   if (distanceToClosest < maxDistance) {
-    var waitingTime = vibration(distanceToClosest);
-    console.log(waitingTime);
-    window.navigator.vibrate([100, waitingTime]);
+    window.navigator.vibrate(1000);
   }
 
   if (distanceToClosest < revealDistance) {
@@ -216,7 +214,7 @@ function colorBox(d){
 function vibration(d){
   var colorIndex = Math.floor(d * colours.length / maxDistance);
   if ( colorIndex < colours.length - 1) {
-    return maxVibration / colours.length * (colorIndex + 1);
+    return maxVibration / colours.length * (colours.lengthcolorIndex + 1);
   } else {
     return maxVibration;
   }
