@@ -19,6 +19,8 @@ var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 var bounds = new google.maps.LatLngBounds();
 var colours = ["#FF0000", "#E2001C", "#C60038", "#AA0055", "#8D0071", "#71008D", "#5500AA", "#3800C6", "#1C00E2", "#0000FF"]
 
+var demoFlag= true;
+
 var locations = [
   {
     lat: 55.876946,
@@ -26,7 +28,8 @@ var locations = [
     d: 0, title: 'Windows in the West',
     about: "Location of the famous painting by Glasgow artist Avril Paton.",
     image: "location0.jpg",
-    type: "culture"
+    type: "culture",
+    id: 1
   },
   {
     lat: 55.878674,
@@ -34,7 +37,8 @@ var locations = [
     d: 0, title: 'Hidden tunnel',
     about: 'The old Botanic Gardens station on the now closed Glasgow Central Railway.',
     image: "location1.jpg",
-    type: "sight"
+    type: "sight",
+    id : 2
   },
   {
     lat: 55.875014,
@@ -42,7 +46,8 @@ var locations = [
     d: 0, title: 'The Wee Pub',
     about: 'The smallest bar in Glasgow.',
     image: "location2.jpg",
-    type: "entertainment"
+    type: "entertainment",
+    id: 3
   },
   {
     lat: 55.875925,
@@ -50,7 +55,7 @@ var locations = [
     d: 0, title: 'De Courcys Arcade',
     about: 'A hidden cluster of around fifteen curious boutiques, galleries, gift shops, cafés and specialist services.',
     image: "location3.jpg",
-    type: "shopping"
+    type: "shopping", id: 4
   },
   {
     lat: 55.874790,
@@ -58,7 +63,7 @@ var locations = [
     d: 0, title: 'Inn Deep',
     about: 'An easy to miss bar beside the river Kelvin, near to Kelvinbridge subway station.',
     image: "location4.jpg",
-    type: "entertainment"
+    type: "entertainment", id: 5
   },
   {
     lat: 55.869565,
@@ -66,7 +71,7 @@ var locations = [
     d: 0, title: 'Kelvingrove Bandstand',
     about: 'An outdoor entertainment stage set against the green backdrop of Kelvingrove Park, boasting a 2500 capacity and modern facilities .',
     image: "location5.jpg",
-    type: "culture"
+    type: "culture", id: 6
   },
   {
     lat: 55.871796,
@@ -74,10 +79,25 @@ var locations = [
     d: 0, title: 'Zoology Museum',
     about: 'Located in the Graham Kerr Building of Glasgow University, is a show-case for the animal world and highlights its diversity.',
     image: "location6.jpg",
-    type: "culture"
+    type: "culture", id: 7
   }
 ];
 
+var demoItinerary =
+  [
+    {"lat": 55.873842, "lng": -4.292177},
+    {"lat": 55.874269, "lng":-4.293214},
+    {"lat": 55.874730, "lng":-4.292981},
+    {"lat": 55.875186, "lng":-4.292543},
+    {"lat": 55.875576, "lng":-4.292566},
+    {"lat": 55.876118, "lng":-4.292793},
+    {"lat": 55.875880, "lng": -4.291940},
+    {"lat": 55.877249, "lng": -4.294070},
+    {"lat": 55.878128, "lng": -4.293147},
+    {"lat": 55.878260, "lng": -4.291645},
+    {"lat": 55.878704, "lng": -4.290872},
+    {"lat": 55.878776, "lng": -4.290693}
+  ]
 /*
 for (var i = 0; i < colours.length; i++){
   var colour = colours[i];
@@ -138,10 +158,10 @@ if (navigator.geolocation) {
     map.setCenter(fakePosition);
 
     userCircle = new google.maps.Circle({
-      strokeColor: '#00FF00',
+      strokeColor: '#000000',
       strokeOpacity: 1,
       strokeWeight: 2,
-      fillColor: '#00FF00',
+      fillColor: '#000000',
       fillOpacity: 1,
       map: map,
       center: pos,
@@ -155,6 +175,16 @@ if (navigator.geolocation) {
     locations.forEach( function(point) {
       createMarker(point, pos);
     });
+
+    console.log(markers);
+    // start test loop
+    var intervalID = window.setInterval(demo, 2000);
+    var i = 0;
+    function demo() {
+      var demoPos = demoItinerary[i % (demoItinerary.length - 1)];
+      success(demoPos);
+      i += 1;
+    }
   }, function() {
     handleLocationError(true, infoWindow, map.getCenter());
   });
@@ -167,40 +197,46 @@ if (navigator.geolocation) {
 navigator.geolocation.watchPosition(success);
 
 // End of the main loop
-
     
 function success(pos) {
-  var crd = {
-    lat: pos.coords.latitude,
-    lng: pos.coords.longitude
-  };
+
+  if (!demoFlag) {
+    var crd = {
+      lat: pos.coords.latitude,
+      lng: pos.coords.longitude
+    };
+  } else {
+    crd = pos;
+  }
 
   map.setCenter(crd);
+  var closestMarker = getClosestMarker(markers, crd);
 
-  var minDistance = 100000;
-  var closestMarker;
+  /*
   markers.forEach(function(marker) { 
     if (marker.point.d < minDistance) {
       minDistance = marker.point.d
       closestMarker = marker;
     }
-  });
+  }); */
 
   var distanceToClosest = Math.round(distance(crd, closestMarker.point), 2);
   /*var paragraph = document.getElementById('debug');
   paragraph.innerHTML = crd.lat + '***' + crd.lng + '***' + distanceToClosest + '\n';
     */
-    
+  
+  // Haptic feedback 
   if (distanceToClosest < maxDistance) {
     window.navigator.vibrate(100);
   }
 
-  if (!soundNotify && distanceToClosest < revealDistance) {
+  // Audio feedback
+  if (distanceToClosest < revealDistance) {
     var audio = new Audio('notify.mp3');
     audio.play();
-    soundNotify = true;
   }
 
+  // Colour feedback
   if (distanceToClosest < revealDistance) {
     closestMarker.setVisible(true);
         /*
@@ -302,7 +338,8 @@ function createMarker(point, pos) {
     position: new google.maps.LatLng(point.lat, point.lng),
     map: map,
     point: point,
-    icon: getIcon(point.type)
+    icon: getIcon(point.type),
+    id: point.id
   });
   markers.push(marker);
   marker.setVisible(false);
@@ -345,6 +382,23 @@ function getIcon(type) {
    return icon + "shopping-mall.svg"; 
   }
 }
+
+function getClosestMarker(markers, pos) {
+  var i;
+  var minDistance = 100000;
+  var distanceToMarker;
+  var closestMarker;
+  for (i = 0; i < markers.length; i++) {
+    distanceToMarker = distance(markers[i].point, pos);
+    // Get the minimum distance and the closest marker
+      if (distanceToMarker < minDistance) {
+        closestMarker = markers[i];        
+        minDistance = distanceToMarker;
+    }
+  }
+  return closestMarker;
+}
+
 /* 
   {lat: 55.8734117, lng:-4.2915252, d: 0, title: 'Windows in the West', about: "About debug1", image: "location0.jpg"},
   {lat: 55.873660, lng:-4.291925  , d: 0, title: 'Windows in the West', about: "About debug2", image: "location0.jpg"}   
