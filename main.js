@@ -77,6 +77,7 @@ var locations = [
     type: "culture"
   }
 ];
+
 /*
 for (var i = 0; i < colours.length; i++){
   var colour = colours[i];
@@ -216,15 +217,12 @@ function success(pos) {
   }
 
   userCircle.setCenter(new google.maps.LatLng(crd.lat, crd.lng));
+
   var box = document.getElementById('box');
-
-  var oldColor = box.style.backgroundColor;
-  var newColor = colorBox(distanceToClosest);
-
-  box.style.backgroundColor = newColor;
-  userCircle.fillColor = newColor;
-  userCircle.strokeColor = newColor;
-  oldColor = newColor;
+  var color = colorBox(distanceToClosest);
+  box.style.backgroundColor = color;
+  userCircle.fillColor = color;
+  userCircle.strokeColor = color;
 //  console.log('watchPosition' , crd);
 }
         
