@@ -219,7 +219,7 @@ function success(pos) {
   var box = document.getElementById('box');
 
   var oldColor = box.style.backgroundColor;
-  var newColor = colorBox(minDistance)
+  var newColor = colorBox(distanceToClosest);
 
   box.style.backgroundColor = newColor;
   userCircle.fillColor = newColor;
